@@ -35,12 +35,17 @@ public class TopicoController {
     @PostMapping
     public ResponseEntity registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico, UriComponentsBuilder uriBuilder) {
 
+        // Validación de Regla de Negocio: No permitir duplicados (Título + Mensaje)
+        if (topicoRepository.existsByTituloAndMensaje(datosRegistroTopico.titulo(), datosRegistroTopico.mensaje())) {
+            return ResponseEntity.badRequest().body("Ya existe un tópico con el mismo título y mensaje.");
+        }
+
         // Obtener las referencias del usuario y el curso desde la base de datos
         Usuario autor = usuarioRepository.getReferenceById(datosRegistroTopico.autorId());
-        Curso curos = cursoRepository.getReferenceById(datosRegistroTopico.cursoId());
+        Curso curso = cursoRepository.getReferenceById(datosRegistroTopico.cursoId());
 
         // Crear y guardar el nuevo tópico
-        Topico topico = new Topico(datosRegistroTopico, autor, curos);
+        Topico topico = new Topico(datosRegistroTopico, autor, curso);
         topicoRepository.save(topico);
 
         var uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();

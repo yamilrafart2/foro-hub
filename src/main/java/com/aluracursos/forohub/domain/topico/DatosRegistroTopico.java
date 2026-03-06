@@ -4,13 +4,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record DatosRegistroTopico(
-        @NotBlank
+        @NotBlank(message = "El título es obligatorio")
         String titulo,
-        @NotBlank
+
+        @NotBlank(message = "El mensaje es obligatorio")
         String mensaje,
-        @NotNull
+
+        @NotNull(message = "El ID del autor es obligatorio")
         Long autorId,
-        @NotNull
+
+        @NotNull(message = "El ID del curso es obligatorio")
         Long cursoId
 ) {
 }
