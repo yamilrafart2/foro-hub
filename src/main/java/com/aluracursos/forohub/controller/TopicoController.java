@@ -93,4 +93,20 @@ public class TopicoController {
 
     }
 
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity eliminarTopico(@PathVariable Long id) {
+
+        var topicoOptional = topicoRepository.findById(id);
+
+        if (topicoOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        topicoRepository.deleteById(id);
+
+        return ResponseEntity.noContent().build();
+
+    }
+
 }
