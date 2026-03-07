@@ -24,8 +24,9 @@ public class SecurityConfigurations {
         return httpSecurity.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/login").permitAll() // Público
-                        .anyRequest().authenticated() // Lo demás (Tópicos, etc.) requiere Token
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll() // Rutas de Swagger
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -2,9 +2,15 @@ package com.aluracursos.forohub.controller;
 
 import com.aluracursos.forohub.domain.curso.Curso;
 import com.aluracursos.forohub.domain.curso.CursoRepository;
-import com.aluracursos.forohub.domain.topico.*;
+import com.aluracursos.forohub.domain.topico.DatosActualizarTopico;
+import com.aluracursos.forohub.domain.topico.DatosDetalleTopico;
+import com.aluracursos.forohub.domain.topico.DatosListadoTopico;
+import com.aluracursos.forohub.domain.topico.DatosRegistroTopico;
+import com.aluracursos.forohub.domain.topico.Topico;
+import com.aluracursos.forohub.domain.topico.TopicoRepository;
 import com.aluracursos.forohub.domain.usuario.Usuario;
 import com.aluracursos.forohub.domain.usuario.UsuarioRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,9 +19,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@SecurityRequirement(name = "bearer-key")
 @RestController
 @RequestMapping("/topicos")
 public class TopicoController {

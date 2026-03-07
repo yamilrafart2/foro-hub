@@ -6,6 +6,7 @@ import com.aluracursos.forohub.domain.respuesta.Respuesta;
 import com.aluracursos.forohub.domain.respuesta.RespuestaRepository;
 import com.aluracursos.forohub.domain.topico.TopicoRepository;
 import com.aluracursos.forohub.domain.usuario.Usuario;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@SecurityRequirement(name = "bearer-key")
 @RestController
 @RequestMapping("/respuestas")
 public class RespuestaController {
