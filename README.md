@@ -4,13 +4,20 @@
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5.11-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-00000f?style=for-the-badge&logo=mysql&logoColor=white)
 
-ForoHub es una API REST diseñada para replicar el funcionamiento de un foro de discusión. Es el desafío final del programa de Backend, donde aplicamos conocimientos de persistencia, validaciones y arquitectura limpia.
+ForoHub es una API REST diseñada para replicar el funcionamiento de un foro de discusión. Este proyecto representa el desafío final del programa Backend, donde se integran conceptos avanzados de seguridad, validación y arquitectura de software.
 
 ## 🚀 Estado del Proyecto
-Actualmente, el proyecto cuenta con un **CRUD funcional y validado para la entidad de Tópicos**, integrado con una base de datos relacional y controlado mediante migraciones automáticas.
+El proyecto se encuentra en su **etapa final**, con un sistema de seguridad completo implementado. Los recursos de la API están protegidos y solo son accesibles mediante autenticación basada en tokens.
 
-## 📋 Funcionalidades
+## 📋 Funcionalidades Principales
 
+### 🔐 Seguridad y Autenticación
+- **Autenticación Stateless:** Implementación de Spring Security con política de sesión sin estado.
+- **Tokens JWT:** Generación y validación de JSON Web Tokens mediante la librería Auth0.
+- **Cifrado de Contraseñas:** Uso de `BCryptPasswordEncoder para el almacenamiento seguro de credenciales.
+- **Filtro de Autorización:** Interceptor personalizado (`OncePerRequestFilter`) para validar tokens en cada solicitud.
+
+### 📝 Gestión de Tópicos (CRUD Protegido)
 - **Registro de Tópicos:** Validación de datos obligatorios y lógica para evitar títulos y mensajes duplicados.
 - **Listado Paginado:** Consulta de todos los tópicos con soporte para paginación y ordenamiento ascendente por fecha.
 - **Detalle Individual:** Endpoint para consultar toda la información de un tópico específico mediante su ID.
@@ -24,8 +31,9 @@ Actualmente, el proyecto cuenta con un **CRUD funcional y validado para la entid
 - **Persistencia:** Spring Data JPA & Hibernate
 - **Base de Datos:** MySQL 8.0
 - **Migraciones:** Flyway
-- **Seguridad:** Spring Security (Configuración base)
+- **Seguridad:** Spring Security & Auth0 JWT
 - **Documentación/Pruebas:** Insomnia / Postman
+- **Productividad:** Lombok
 
 ## ⚙️ Configuración y Ejecución
 
@@ -46,6 +54,8 @@ Configura tu archivo `src/main/resources/application.properties` con tus credenc
 spring.datasource.url=jdbc:mysql://localhost/forohub_api
 spring.datasource.username=tu_usuario
 spring.datasource.password=tu_contraseña
+
+api.security.token.secret=${JWT_SECRET:tu_clave_secreta_aqui}
 ```
 
 ### 4. Ejecución
@@ -53,6 +63,12 @@ Las tablas se crearán automáticamente gracias a **Flyway** al iniciar la aplic
 ```shell
 mvn spring-boot:run
 ```
+
+### 5. Uso de la API
+Para interactuar con los endpoints protegidos, primero debes autenticarte:
+1) Realiza un `POST` a `/login` con tus credenciales.
+2) Copia el `jwTtoken` recibido.
+3) En las siguientes solicitudes, incluye el encabezado: `Authorization: Bearer <tu_token>`.
 
 ---
 Desarrollado por [Yamil Rafart](https://github.com/yamilrafart2) - 2026
