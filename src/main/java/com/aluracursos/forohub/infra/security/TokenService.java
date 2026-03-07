@@ -35,4 +35,20 @@ public class TokenService {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 
+    public String getSubject(String token) {
+        if (token == null) {
+            throw new RuntimeException("Token nulo");
+        }
+        try {
+            Algorithm algoritmo = Algorithm.HMAC256(secret);
+            return JWT.require(algoritmo)
+                    .withIssuer("ForoHub")
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (com.auth0.jwt.exceptions.JWTVerificationException exception) {
+            throw new RuntimeException("Token JWT inválido o expirado");
+        }
+    }
+
 }
